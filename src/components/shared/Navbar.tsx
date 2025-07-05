@@ -10,13 +10,13 @@ const Navbar = () => {
     <nav className="2xl:border-b 2xl:border-gray-400 shadow-lg">
       <div className="flex justify-between items-center p-2 md:p-4 w-full max-w-5xl lg:mx-auto">
         <h1 className="flex gap-2 items-center">
-          <a href="#">
+          <Link to="/">
             <img
               src={Logo}
               alt=""
               className="h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 p-1 lg:p-2 bg-white shadow-2xl shadow-blue-400 rounded-lg"
             />
-          </a>
+          </Link>
           <p className="text-xl lg:text-2xl font-bold gradient-text">
             <span>Roadmap</span>
             <span>App</span>

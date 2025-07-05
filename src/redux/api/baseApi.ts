@@ -3,36 +3,29 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://proxy-backend-coral.vercel.app/api",
+    baseUrl: "https://roadmap-app-backend.vercel.app/api",
+    // baseUrl: "http://localhost:5000/api",
+    credentials: "include",
   }),
   endpoints: (builder) => ({
-    getCategories: builder.query({
-      query: () => ({
-        url: "/categories",
-        method: "GET",
+    createUser: builder.mutation({
+      query: (userData) => ({
+        url: "/users/create-user",
+        method: "POST",
+        body: userData,
       }),
-      providesTags: ["categories"],
+      invalidatesTags: ["user"],
     }),
-    getProducts: builder.query({
-      query: () => ({
-        url: "/products",
-        method: "GET",
+    loginUser: builder.mutation({
+      query: (userData) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: userData,
       }),
-      providesTags: ["products"],
-    }),
-    getSingleProduct: builder.query({
-      query: (slug) => ({
-        url: `/product/${slug}`,
-        method: "GET",
-      }),
-      providesTags: ["products"],
+      invalidatesTags: ["user"],
     }),
   }),
-  tagTypes: ["products", "categories"],
+  tagTypes: ["user"],
 });
 
-export const {
-  useGetCategoriesQuery,
-  useGetProductsQuery,
-  useGetSingleProductQuery,
-} = baseApi;
+export const { useLoginUserMutation, useCreateUserMutation } = baseApi;
