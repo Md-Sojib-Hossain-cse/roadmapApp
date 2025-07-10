@@ -1,11 +1,42 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import Logo from "../../assets/logo.png";
 import { IoClose } from "react-icons/io5";
-import { useState } from "react";
-import { Link } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import {
+  removeUser,
+  selectUser,
+  setUser,
+} from "../../redux/features/user/uers.Slice";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
   const [toggleNavbar, setToggleNavbar] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const existingUser = localStorage.getItem("user");
+
+    //if user available then setting up user on user state
+    if (existingUser) {
+      dispatch(setUser(JSON.parse(existingUser)));
+    }
+    setLoading(false);
+  }, [dispatch]);
+
+  const user = useAppSelector(selectUser);
+
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    dispatch(removeUser());
+    toast.success("User Logged out successfully!");
+    navigate("/login");
+  };
+
   return (
     <nav className="2xl:border-b 2xl:border-gray-400 shadow-lg">
       <div className="flex justify-between items-center p-2 md:p-4 w-full max-w-5xl lg:mx-auto">
@@ -33,20 +64,31 @@ const Navbar = () => {
               </a>
             </li>
           </ul>
-          <div className="space-x-2">
-            <Link
-              to="/login"
+          {loading ? (
+            <p>Loading....</p>
+          ) : !loading && user?.accessToken ? (
+            <button
+              onClick={handleLogOut}
               className="px-5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg font-medium text-white hover:from-[#26314b] hover:to-[#26314b] cursor-pointer transition delay-100"
             >
-              Login
-            </Link>
-            <Link
-              to="/signup"
-              className="px-5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg font-medium text-white hover:from-[#26314b] hover:to-[#26314b] cursor-pointer transition delay-100"
-            >
-              Sign up
-            </Link>
-          </div>
+              Logout
+            </button>
+          ) : (
+            <div className="space-x-2">
+              <Link
+                to="/login"
+                className="px-5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg font-medium text-white hover:from-[#26314b] hover:to-[#26314b] cursor-pointer transition delay-100"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="px-5 py-1 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg font-medium text-white hover:from-[#26314b] hover:to-[#26314b] cursor-pointer transition delay-100"
+              >
+                Sign up
+              </Link>
+            </div>
+          )}
         </div>
         <div className="md:hidden relative text-white">
           {toggleNavbar ? (

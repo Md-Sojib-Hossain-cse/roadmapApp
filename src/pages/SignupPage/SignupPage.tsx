@@ -3,7 +3,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useCreateUserMutation } from "../../redux/api/baseApi";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 type TSignupForm = {
   name: string;
@@ -183,6 +183,15 @@ const SignupPage = () => {
           {isSuccess && (
             <p className="text-green-600 text-sm">User created Successfully!</p>
           )}
+          <p className="text-sm space-x-1">
+            <span>Already have an account ?</span>
+            <Link
+              to="/login"
+              className="text-blue-500 underline cursor-pointer"
+            >
+              Login
+            </Link>
+          </p>
 
           {isLoading ? (
             <button className="px-5 py-2 w-full rounded-sm bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg font-medium text-white hover:from-[#26314b] hover:to-[#26314b] cursor-pointer transition duration-200 active:scale-95 ease-in-out">

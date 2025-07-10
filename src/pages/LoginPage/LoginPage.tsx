@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
-// import { useNavigate } from "react-router";
 import { useLoginUserMutation } from "../../redux/api/baseApi";
 import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router";
+import { useAppDispatch } from "../../redux/hook";
+import { setUser } from "../../redux/features/user/uers.Slice";
 
 type TLogin = {
   email: string;
@@ -11,7 +13,8 @@ type TLogin = {
 };
 
 const LoginPage = () => {
-  //   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -33,10 +36,11 @@ const LoginPage = () => {
 
     const user = await loginUser(userData).unwrap();
 
-    console.log(user);
-
     if (user.success) {
+      dispatch(setUser(user?.data));
+      localStorage.setItem("user", JSON.stringify(user?.data));
       toast.success("User logged in successfully!");
+      navigate("/", { replace: true });
     } else {
       toast.error("Something went wrong!");
     }
@@ -124,6 +128,15 @@ const LoginPage = () => {
               User Logged in Successfully!
             </p>
           )}
+          <p className="text-sm space-x-1">
+            <span>Don't have an account ?</span>
+            <Link
+              to="/signup"
+              className="text-blue-500 underline cursor-pointer"
+            >
+              Signup
+            </Link>
+          </p>
           {isLoading ? (
             <button className="px-5 py-2 w-full rounded-sm bg-gradient-to-r from-blue-500 to-blue-600 shadow-lg font-medium text-white hover:from-[#26314b] hover:to-[#26314b] cursor-pointer transition duration-200 active:scale-95 ease-in-out">
               Logging user...
