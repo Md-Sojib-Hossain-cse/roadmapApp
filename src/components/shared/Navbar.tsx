@@ -56,10 +56,7 @@ const Navbar = () => {
         <div className="hidden md:flex justify-end items-center gap-4 md:gap-8 lg:gap-12 text-lg">
           <ul>
             <li>
-              <a
-                href="#roadmaps"
-                className="text-lg text-gray-300 hover:text-white"
-              >
+              <a href="/" className="text-lg text-gray-300 hover:text-white">
                 Roadmaps
               </a>
             </li>
@@ -110,7 +107,7 @@ const Navbar = () => {
           >
             <ul className="text-lg space-y-2 p-4">
               <li className="border-b rounded-lg hover:bg-blue-600">
-                <a href="#roadmaps" onClick={() => setToggleNavbar(false)}>
+                <a href="/" onClick={() => setToggleNavbar(false)}>
                   Roadmaps
                 </a>
               </li>

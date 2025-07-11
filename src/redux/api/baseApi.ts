@@ -24,8 +24,19 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["user"],
     }),
+    getRoadmapItems: builder.query({
+      query: () => ({
+        url: "/roadmap",
+        method: "GET",
+      }),
+      providesTags: ["roadmap"],
+    }),
   }),
-  tagTypes: ["user"],
+  tagTypes: ["user", "roadmap"],
 });
 
-export const { useLoginUserMutation, useCreateUserMutation } = baseApi;
+export const {
+  useLoginUserMutation,
+  useCreateUserMutation,
+  useGetRoadmapItemsQuery,
+} = baseApi;

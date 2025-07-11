@@ -3,6 +3,9 @@ import GeneralLayout from "../layout/GeneralLayout";
 import HomePage from "../pages/HomePage/HomePage";
 import LoginPage from "../pages/LoginPage/LoginPage";
 import SignupPage from "../pages/SignupPage/SignupPage";
+import SingleRoadmapPage from "../pages/SingleRoadmapPage/SingleRoadmapPage";
+import UserProtectedRoutes from "./UserProtectedRoutes/UserProtectedRoutes";
+import NoUserProtectedRoutes from "./UserProtectedRoutes/NoUserProtectedRoutes";
 
 const router = createBrowserRouter([
   {
@@ -14,12 +17,28 @@ const router = createBrowserRouter([
         element: <HomePage></HomePage>,
       },
       {
+        path: "/roadmap/:id",
+        element: (
+          <UserProtectedRoutes>
+            <SingleRoadmapPage></SingleRoadmapPage>
+          </UserProtectedRoutes>
+        ),
+      },
+      {
         path: "/login",
-        element: <LoginPage></LoginPage>,
+        element: (
+          <NoUserProtectedRoutes>
+            <LoginPage></LoginPage>
+          </NoUserProtectedRoutes>
+        ),
       },
       {
         path: "/signup",
-        element: <SignupPage></SignupPage>,
+        element: (
+          <NoUserProtectedRoutes>
+            <SignupPage></SignupPage>
+          </NoUserProtectedRoutes>
+        ),
       },
     ],
   },
